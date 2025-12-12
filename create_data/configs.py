@@ -22,11 +22,11 @@ configs = {
 
 # 每个 odd 自己的“变化强度”范围（与 args 无关，纯局部配置）
 configs_odd = {
-    "de_range": [5, 20],          # 每个 odd 的 ΔE 范围
+    "de_range": [5, 15],          # 每个 odd 的 ΔE 范围
     "size_range": [0.85, 1.15],   # 每个 odd 的 size_ratio 范围
     "size_offset": [0.95, 1.05],  # ❗ 排除区间（例如避免太接近 1.0）
-    "angle_range": [-15, 15],     # 每个 odd 的 angle_scale 范围
-    "angle_offset": [-3, 3],      # ❗ 排除区间（例如避免太小角度变化）
+    "angle_range": [-20, 20],     # 每个 odd 的 angle_scale 范围
+    "angle_offset": [-5, 5],      # ❗ 排除区间（例如避免太小角度变化）
     "position_range":[0.85, 1.15],
     "position_offset":[0.95, 1.05],
     "blur_range":[0.6, 1.1],

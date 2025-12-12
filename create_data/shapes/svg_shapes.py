@@ -53,7 +53,7 @@ def rasterize_svg(svg_str, block_size, color=(0,0,0), bgcolor=(1,1,1),
     left = (block_size - target) // 2
 
     canvas[top:top + target, left:left + target] = img_small
-    # canvas = add_gaussian_noise(canvas)
+    canvas = add_gaussian_noise(canvas)
     return canvas
 
 
@@ -85,4 +85,6 @@ def register_all_svg(folder):
             make_func(svg_str, shape_name)
 
     print(f"已注册 {len(shape_registry)} 个 SVG 图案: {list(shape_registry.keys())}")
-register_all_svg("/data/wengtengjin/colorsense/create_data/svg_file_train/")
+    
+# register_all_svg("/data/wengtengjin/colorsense/create_data/svg_file_test/")
+# register_all_svg("/data/wengtengjin/colorsense/create_data/svg_file_train/")

@@ -1,7 +1,6 @@
 import numpy as np
 import argparse
 import copy
-import os
 from concurrent.futures import ProcessPoolExecutor, as_completed
 import cv2
 import random
@@ -24,7 +23,7 @@ from utils import (
 )
 from utils import *
 from configs import configs, configs_odd, randomize_config
-from shapes import draw_random_shape, draw_shape_by_name
+from shapes import draw_random_shape, draw_shape_by_name, register_all_svg
 
 
 # ================================================================
@@ -61,7 +60,7 @@ def _generate_base_block(block_size, background_rgb):
     return base_lab, base_rgb, base_shape
 
 
-def _generate_odd_types(n):
+def _generate_odd_types(n, max_attributes):
     """
     为每一个 odd 块生成一个类型列表（1~len(ALL_TYPES) 个类型，且不重复）。
 
@@ -75,7 +74,7 @@ def _generate_odd_types(n):
     odd_types_per_block = []
     for _ in range(n):
         # 每个 odd 随机选 k 个类型（k ∈ [1, len(ALL_TYPES)]）
-        k = np.random.randint(1, len(ALL_TYPES) + 1)
+        k = np.random.randint(1, max_attributes)
         types = np.random.choice(ALL_TYPES, size=k, replace=False).tolist()
         odd_types_per_block.append(types)
     return odd_types_per_block
@@ -134,7 +133,7 @@ def _generate_odd_parameters(
         #     print(local_angle_scale, base_angle, odd_angle)
         # if "position" in odd_type_list:
         # print(odd_position)
-        print(odd_fracture)
+        # print(odd_fracture)
         odd_params.append({
             "types": odd_type_list,
             "lab": odd_lab,
@@ -331,7 +330,7 @@ def _draw_cells(
             (0, 0, 0),
             1,
         )
-    # img = add_gaussian_noise(img, sigma=0.01)
+    img = add_gaussian_noise(img, sigma=0.01)
 
         
     return img, odd_list
@@ -396,7 +395,7 @@ def generate_odd_one_out_image(
     total_cells, n, odd_indices = _select_odd_positions(grid_size, random.randint(1, args.max_num_odds))
 
     # 3) 为每一个 odd 生成它的类型组合
-    odd_types_per_block = _generate_odd_types(n)
+    odd_types_per_block = _generate_odd_types(n, args.max_attributes + 1)
 
     # 4) 为每一个 odd 生成它自己的参数（颜色、大小、角度变化强度）
     odd_params, base_angle = _generate_odd_parameters(
@@ -548,14 +547,19 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--number", type=int, default=10)
     parser.add_argument("--data_type", type=str, default="test_data")
-    parser.add_argument("--num_workers", type=int, default=8)
+    parser.add_argument("--num_workers", type=int, default=16)
 
-    # how many odds in each image
+    # how many odds in each image (max)
     parser.add_argument("--max_num_odds", type=int, default=5)
+    # how many attributes for each odd (max)
+    parser.add_argument("--max_attributes", type=int, default=len(ALL_TYPES))
+    
 
     args = parser.parse_args()
 
     args.draw_bbox = (args.data_type == "test_data")
     args.rowcol_image = (args.data_type == "test_data")
-
+    
+    register_all_svg(f"../create_data/svg_file_{args.data_type[:-5]}")
+    
     build_dataset(args)

@@ -6,8 +6,8 @@ train_num=30000
 
 # 要运行的命令列表
 commands=(
-    "python main.py --number=$train_num --data_type=train_data"
-    "python get_all_json.py --data_type=train"
+    "python main.py --number=$train_num --data_type=train_data --max_attributes=1"
+    "python create_jsonfile.py --data_type=train"
 )
 
 # 遍历执行
