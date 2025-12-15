@@ -82,7 +82,8 @@ def run_vllm_http(args):
         id = data.get("id")
         if id in processed_ids:
             continue
-
+        if data.get("odd_count") > 1:
+            continue
         image_names = [data.get("image")]  # list of image paths
         image_paths = [os.path.join(configs_para["image_dir"], img_name) for img_name in image_names]
         prompt = build_prompt(data)
