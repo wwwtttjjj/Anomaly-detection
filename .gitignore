@@ -19,7 +19,7 @@
 *.output
 *.jsonl
 *.json
-*.ubyte
+*ubyte
 *.otf
 *.JPG
 *.csv
