@@ -19,4 +19,8 @@
 *.output
 *.jsonl
 *.json
+*.ubyte
+*.otf
+*.JPG
+*.csv
 
