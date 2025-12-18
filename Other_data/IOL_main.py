@@ -172,7 +172,7 @@ def generate_dataset(
             print(f"[{i+1}/{samples}] generated")
 
     # ===== 一次性写成 list of dict =====
-    ann_path = out_dir / "annotations.json"
+    ann_path = out_dir / "iol_test_data.json"
     with ann_path.open("w", encoding="utf-8") as f:
         json.dump(annotations, f, ensure_ascii=False, indent=2)
 
@@ -202,7 +202,8 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     
-    args.out_dir = "/".join(args.png_root.split("/")[0:-1]) + "/test_data"
+    
+    args.out_dir = "/".join(args.png_root.split("/")[0:-1]) + "/iol_test_data"
     
     seed = args.seed if args.seed is not None else random.randint(0, 10000)
 
